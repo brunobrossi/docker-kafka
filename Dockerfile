@@ -46,8 +46,11 @@ ENV PATH /kafka/bin:$PATH
 WORKDIR /kafka
 
 # broker, jmx
-EXPOSE 9092 ${JMX_PORT}
+EXPOSE 9092 7071
 VOLUME [ "/data", "/logs" ]
 
-CMD ["/start.sh"]
+COPY extra/ /kafka/extra
 
+#ENV KAFKA_OPTS="$KAFKA_OPTS -javaagent:/kafka/extra/jmx_prometheus_javaagent-0.9.jar=7071:/kafka/extra/prometheus_config.yml"
+
+CMD ["/start.sh"]
